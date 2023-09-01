@@ -1,5 +1,6 @@
 (ns app.todo-list
   (:require #?(:clj [app.xtdb-contrib :as db])
+            #?(:clj [app.db])
             [hyperfiddle.electric :as e]
             [hyperfiddle.electric-dom2 :as dom]
             [hyperfiddle.electric-ui4 :as ui]
@@ -67,8 +68,8 @@
 
 (e/defn Todo-list []
   (e/server
-    (binding [!xtdb user/!xtdb
-              db (new (db/latest-db> user/!xtdb))]
+    (binding [!xtdb app.db/node
+              db (new (db/latest-db> app.db/node))]
       (e/client
         (dom/link (dom/props {:rel :stylesheet :href "/todo-list.css"}))
         (dom/h1 (dom/text "minimal todo list"))

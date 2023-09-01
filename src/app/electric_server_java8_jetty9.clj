@@ -12,7 +12,8 @@
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.util.response :as res]
             [clojure.string :as str]
-            [clojure.edn :as edn])
+            [clojure.edn :as edn]
+            [mount.core :refer [defstate] :as mount])
   (:import [java.io IOException]
            [java.net BindException]
            [org.eclipse.jetty.server.handler.gzip GzipHandler]))
@@ -140,3 +141,8 @@
             (start-server! (update config :port inc)))
         (throw err)))))
 
+(defstate http-server
+  :start
+  (let [config {:host "0.0.0.0", :port 8080, :resources-path "public"}]
+    (start-server! config))
+  :stop (.stop http-server))

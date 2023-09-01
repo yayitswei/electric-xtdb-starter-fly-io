@@ -9,4 +9,10 @@
    :output-dir "resources/public/js"
    :asset-path "/js"
    :modules {:main {:entries [user]
-                    :init-fn user/start!}}}}}
+                    :init-fn user/start!}}}
+  :prod
+  {:target :browser
+   :output-dir "resources/public/js"
+   :asset-path "/js"
+   :module-hash-names true
+   :modules {:main {:entries [user] :init-fn user/start!}}}}}

@@ -1,0 +1,47 @@
+# fly.toml app configuration file generated for electric-xtdb-starter on 2023-09-01T14:05:51-07:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = "electric-xtdb-starter"
+primary_region = "lax"
+kill_signal = "SIGINT"
+kill_timeout = "5s"
+
+[experimental]
+  auto_rollback = true
+
+[build]
+
+[env]
+  XTDB_DOCUMENT_STORE_PATH = "/data/prod/doc-store"
+  XTDB_ENABLE_BYTEUTILS_SHA1 = "true"
+  XTDB_INDEX_STORE_PATH = "/data/prod/index-store"
+  XTDB_TX_LOG_PATH = "/data/prod/tx-log"
+
+[[mounts]]
+  source = "myapp_data"
+  destination = "/data"
+
+[[services]]
+  protocol = "tcp"
+  internal_port = 8080
+  processes = ["app"]
+
+  [[services.ports]]
+    port = 80
+    handlers = ["http"]
+    force_https = true
+
+  [[services.ports]]
+    port = 443
+    handlers = ["tls", "http"]
+  [services.concurrency]
+    type = "connections"
+    hard_limit = 200
+    soft_limit = 150
+
+  [[services.tcp_checks]]
+    interval = "15s"
+    timeout = "2s"
+    grace_period = "1s"

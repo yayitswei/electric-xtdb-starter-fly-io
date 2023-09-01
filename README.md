@@ -17,3 +17,7 @@ shadow-cljs - nREPL server started on port 9001
 
 👉 App server available at http://0.0.0.0:8080
 ```
+
+## Deployment
+
+Run `deploy.sh`
